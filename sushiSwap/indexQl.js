@@ -109,9 +109,9 @@ const resolvers = {
                                 address: token1Address,
                             },
                         });
+                        return { pools }
                     }
                 }
-                return { pools }
             } catch (error) {
                 console.log(error);
             }
