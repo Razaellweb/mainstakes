@@ -127,48 +127,6 @@ const resolvers = {
   },
 };
 
-async function main(lp, lpamount) {
-  const token0Address = await lp.methods.token0().call();
-  const token1Address = await lp.methods.token1().call();
-
-  const token0Contract = new web3.eth.Contract(tokenabi, token0Address);
-  const token1Contract = new web3.eth.Contract(tokenabi, token1Address);
-
-  const token0Symbol = await token0Contract.methods.symbol().call();
-  const token1Symbol = await token1Contract.methods.symbol().call();
-
-  const totalSupply = await lp.methods.totalSupply().call();
-  const reserve = await lp.methods.getReserves().call();
-
-  const reserve0 = reserve._reserve0;
-  const reserve1 = reserve._reserve1;
-
-  const token0Amount = (
-    (reserve0 * lpamount) /
-    totalSupply /
-    10 ** token0dec
-  ).toFixed(2);
-  const token1Amount = (
-    (reserve1 * lpamount) /
-    totalSupply /
-    10 ** token1dec
-  ).toFixed(2);
-
-
-  return {
-    token0: {
-      amount: token0Amount,
-      symbol: token0Symbol,
-      address: token0Address,
-    },
-    token1: {
-      amount: token1Amount,
-      symbol: token1Symbol,
-      address: token1Address,
-    },
-  };
-}
-
 const server = new ApolloServer({ typeDefs, resolvers });
 
 server.listen().then(({ url }) => {
