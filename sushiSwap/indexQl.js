@@ -45,8 +45,6 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         async getUserActivity(_, { userAddress }) {
-            const poolLength = await mainStacking.methods;
-            const pools = [];
             try {
                 const poolLength = await mainStacking.methods.poolLength().call();
                 const pools = [];
