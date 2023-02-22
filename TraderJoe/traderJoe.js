@@ -66,7 +66,7 @@ const resolvers = {
           const rewards = await masterChefV2.methods
             .pendingSushi(i, userAddress)
             .call();
-          // check if the user has a non-zero amount
+          // check if the user has no amount
 
           if (userInfo.amount > 0) {
             const lpamount = userInfo.amount;
