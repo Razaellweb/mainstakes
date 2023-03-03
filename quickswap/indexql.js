@@ -93,11 +93,11 @@ const resolvers = {
                                         symbol: token1Symbol,
                                     }
                                 })
-                                return { pools };
                             }
                         }
                     }
                 }
+                return { pools };
             } catch (error) {
                 console.log(error);
             }
