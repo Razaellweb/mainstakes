@@ -4,14 +4,14 @@ const { ApolloServer, gql } = require("apollo-server");
 const Web3 = require("web3");
 
 // http provider configuration
-const url = process.env.url;
+const url = "https://rpc.ankr.com/avalanche";
 const web3 = new Web3(new Web3.providers.HttpProvider(url));
 
 const traderJoeMasterChefV2abi = require("./MasterChefV2.json");
 
 // contract address of pancakeswap master chef contract
 const traderJoeMasterChefV2address =
-  "0xEF0881eC094552b2e128Cf945EF17a6752B4Ec5d";
+  "0xd6a4F121CA35509aF06A0Be99093d08462f53052";
 
 //  master chef contract
 const masterChefV2 = new web3.eth.Contract(
@@ -57,14 +57,15 @@ const resolvers = {
         const pools = [];
         // loop through all pool IDs
         for (let i = 0; i <= poolLength; i++) {
-          const lpTokenAddress = await masterChefV2.methods.lpToken(i).call();
+          const lpTokenAddress = await masterChefV2.methods.poolInfo(i).call();
           // get the user's information for the current LP token
           const userInfo = await masterChefV2.methods
             .userInfo(i, userAddress)
             .call();
+
           //rewards
           const rewards = await masterChefV2.methods
-            .pendingSushi(i, userAddress)
+            .pendingTokens(i, userAddress)
             .call();
           // check if the user has no amount
 

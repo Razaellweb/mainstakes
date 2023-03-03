@@ -1,9 +1,13 @@
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
+const Web3 = require("web3");
+
 
 const { ApolloServer, gql } = require("apollo-server");
 // http provider configuration
 
-const web3 = createAlchemyWeb3(process.env.URL);
+const url =
+    "https://bold-black-energy.bsc.discover.quiknode.pro/c2bf115e5d95e1ee7a40bef1eb2e9bef41222bfb/";
+const web3 = new Web3(new Web3.providers.HttpProvider(url));
 
 // abi of apeswap master chef contract
 const apeswapV2abi = require("./MasterChefV2.json");
@@ -63,7 +67,7 @@ const resolvers = {
             .call();
           // check if the user has a non-zero amount
 
-          if (userInfo.amount !== 0) {
+          if (userInfo.amount > 0) {
             // create an instance of the lp contract
             const lpamount = userInfo.amount
             const lp = new web3.eth.Contract(apeSwapLPToken, lpTokenAddress.lpToken);
@@ -109,7 +113,7 @@ const resolvers = {
                 address: token1Address,
               },
             });
-            return {pools}
+            return { pools }
           }
         }
       } catch (error) {
